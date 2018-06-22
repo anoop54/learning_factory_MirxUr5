@@ -131,7 +131,14 @@ def calibXnY():
     rob.movel_tool((-(tvec[0][0][0])/1000, 0, 0, 0, 0, 0), 0.1, 1)
     rob.movel_tool((0,-(tvec[0][0][1])/1000, 0, 0, 0, 0), 0.1, 1)
 
-
+def dropoff_():
+    myur.KanBanDropOffImagePos()
+    take_picture()
+    myur.DropOff()
+    rob.movel_tool((-(tvec[0][0][0])/1000, 0, 0, 0, 0, 0), 0.1, 1)
+    rob.movel_tool((0,200/1000, 0, 0, 0, 0), 0.1, 1)
+    rob.movel_tool((0, 0, (tvec[0][0][2]-50)/1000, 0, 0, 0), 0.1, 1)
+    rob.movel_tool((0,-40/1000, 0, 0, 0, 0), 0.1, 1)    
 
 def searchDown():
     #ifNotFound

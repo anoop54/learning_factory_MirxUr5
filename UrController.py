@@ -190,6 +190,7 @@ class MyUr:
         self.MoveCommand(self.Waypoint12)
         time.sleep(2)
         self.MoveCommand(self.Ur_Home)
+        time.sleep(4)
 
 
     def KanBanDropOffImagePos(self):
@@ -198,7 +199,7 @@ class MyUr:
         self.MoveCommand(self.Waypoint14)
         time.sleep(4)
         self.MoveCommand(self.Waypoint15)
-
+        time.sleep(4)
     def DropOff(self):
         self.MoveCommand(self.Waypoint14)
         time.sleep(5)
@@ -223,6 +224,7 @@ class MyUr:
         self.MoveCommand(self.Waypoint14)
         time.sleep(5)
         self.MoveCommand(self.Waypoint15)
+        time.sleep(4)
 
         
         
