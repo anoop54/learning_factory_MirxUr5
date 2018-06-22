@@ -50,7 +50,7 @@ class cam:
 
         
         try:
-            cv_file = cv2.FileStorage("calib_imagescp/test.yaml", cv2.FILE_STORAGE_READ)
+            cv_file = cv2.FileStorage("test.yaml", cv2.FILE_STORAGE_READ)
             mtx = cv_file.getNode("camera_matrix").mat()
             dist = cv_file.getNode("dist_coeff").mat()
             cv_file.release()

@@ -84,11 +84,12 @@ def canban_pick_up():
     if(take_picture() == 0):
         search_all()     
     else:
-        ang = check_plane_angle()
-        if(ang>5 or ang<-5):
-            CalibPlaneAngle()
-        calibXnY()
-        pickUp()
+        if(take_picture() != 0):
+            ang = check_plane_angle()
+            if(ang>5 or ang<-5):
+                CalibPlaneAngle()
+            calibXnY()
+            pickUp()
 
                 
 def search_all():
