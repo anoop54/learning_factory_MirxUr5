@@ -111,7 +111,8 @@ def pickUp():
     take_picture()
     #ids,corners,rvec,tvec = take_picture()
     time.sleep(1.5)
-    if(distance_to_aruco(tvec)<1160):
+    print("distance : " + str(distance_to_aruco(tvec)))
+    if(distance_to_aruco(tvec) < 1060):
         rob.movel_tool((0, 0, (tvec[0][0][2]-25)/1000, 0, 0, 0), 0.1, 1)
         rob.movel_tool((0, 0.08, 0, 0, 0, 0), 0.1, 0.1)
         rob.movel_tool((0, 0, -400/1000, 0, 0, 0), 0.1, 0.05)
