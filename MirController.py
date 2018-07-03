@@ -71,6 +71,18 @@ def battery_percentage():
 	battery_percentage = status_json['battery_percentage']
 	print (battery_percentage)
 
+def register_get(register):
+	get_robot_status = requests.get(url + 'registers/'+str(register))
+	status_json = get_robot_status.json()
+	
+	#pprint.pprint(status_json)
+
+	register_value = status_json['value']
+	
+	print (register_value)
+	
+	return register_value
+
 
 def current_mode():
 	get_robot_status = requests.get(url + 'status')
@@ -104,7 +116,7 @@ def move_mir_to_position(destination):
 def append_mission():
 	header = {'accept': 'application/json', 'accept-encoding': 'gzip, deflate', 'accept-language': 'en-US,en;q=0.8', 'content-type': 'application/json'}		
 	mission_url = (url + 'mission_queue')
-	mission = "{\"mission\": \"6d5b23b9-6fec-11e8-ba0b-f44d306b784b\"}"
+	mission = "{\"mission\": \"ce2b422d-7880-11e8-94bd-f44d306b784b\"}"
 
 	post = requests.request("POST", mission_url, data=mission, headers=header)
 	continue_robot()

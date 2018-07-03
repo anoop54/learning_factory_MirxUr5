@@ -30,12 +30,33 @@ def main():
     
     myur = UrController.MyUr()
     cam = CamController.cam()
+    
     if(cam.doOperation() != 0):
         ids,corners,rvec,tvec = cam.doOperation()
         print(tvec)
 
 #want 0.07514064436138192
+def kanban_pickup_valve_drop_off():
+    register_clear(5)
+    mir.append_mission()
+    while(mir.register_get(2) != 1):
+        print("Waiting")
+        time.sleep(0.5)
+    kanban_pick_up()
+    mir.register_write(1,1)
+    myur.BinMovePos()
+    while(mir.register_get(2) != 0):
+        print("Waiting")
+    dropoff_()
+    rob2 = urx.Robot("172.16.4.50")
+    rob2.set_digital_out(6,1)
 
+    
+def register_clear(x):
+    for i in range(x):
+        mir.register_write(i,0)
+        time.sleep(0.1)
+        
 def CalibPlaneAngle():
     ids,corners,rvec,tvec = take_picture()
 
@@ -78,13 +99,15 @@ def length(v):
 def dotproduct(v1, v2):
   return sum((a*b) for a, b in zip(v1, v2))
 
-def canban_pick_up():
-    #myur.TakePic()
-    #time.sleep(1.5)    
+def kanban_pick_up():
+    myur.TakePic()
+
     if(take_picture() == 0):
-        search_all()     
+        search_all()
+        kanban_pick_up()
     else:
         if(take_picture() != 0):
+            CalibPlaneAngle()
             ang = check_plane_angle()
             if(ang>5 or ang<-5):
                 CalibPlaneAngle()
@@ -134,12 +157,14 @@ def calibXnY():
 def dropoff_():
     myur.KanBanDropOffImagePos()
     take_picture()
+    take_picture()
     myur.DropOff()
     rob.movel_tool((-(tvec[0][0][0])/1000, 0, 0, 0, 0, 0), 0.1, 1)
-    rob.movel_tool((0,200/1000, 0, 0, 0, 0), 0.1, 1)
-    rob.movel_tool((0, 0, (tvec[0][0][2]-50)/1000, 0, 0, 0), 0.1, 1)
+    rob.movel_tool((0, 0, (tvec[0][0][2]-250)/1000, 0, 0, 0), 0.1, 1)
     rob.movel_tool((0,-40/1000, 0, 0, 0, 0), 0.1, 1)    
+    rob.movel_tool((0,0,-200/1000, 0, 0, 0), 0.1, 1)
 
+    
 def searchDown():
     #ifNotFound
     myur.PicTrigger()
@@ -210,9 +235,9 @@ def take_picture():
     global rob
     
     myur.PicTrigger()
-    time.sleep(1.2)
+    time.sleep(2)
     if(cam.doOperation() != 0):
-        ids,corners,rvec,tvec = cam.doOperation()       
+        ids,corners,rvec,tvec = cam.doOperation()
     return cam.doOperation()
 
 def distance(tvec): #distance in meters

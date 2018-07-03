@@ -30,7 +30,7 @@ class MyUr:
     Waypoint13 =  ("movej([-3.117158, -1.98862815, 1.83364291, 0.1666789, 0.07906342, 0.003316126], a=0.5236, v=0.69813)" + "\n")
     Waypoint14 =  ("movej([-1.93888627, -2.05687052, 1.86278991, 0.22916173, 1.2281882, -0.03385939], a=0.5236, v=0.69813)" + "\n")
     Waypoint15 =  ("movel([-2.17834544, -0.9843657, 2.53491621, -1.5861552, 1.01229, -0.0137881], a=0.1, v=0.5)" + "\n")
-
+    Waypoint16 =  ("movel([-2.17729824, -1.7025687, 2.40733264, -0.74193947, 1.0114183, -0.01082104], a=0.1, v=0.5)" + "\n")
 
     Picturetrig = "set_digital_out(0,True)"+"\n"
     Picturetrig1 = "set_digital_out(0,False)"+"\n"
@@ -154,13 +154,14 @@ class MyUr:
 
     def TakePic(self):
         self.MoveCommand(self.Ur_TakePic)
+        time.sleep(5)
 
     def PicTrigger(self):
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((self.HOST,self.PORT))
         s.send(self.Picturetrig.encode())
-        time.sleep(1)
+        time.sleep(1.5)
         s.send(self.Picturetrig1.encode())
         data= s.recv(1024)
         s.close()
@@ -199,7 +200,7 @@ class MyUr:
         self.MoveCommand(self.Waypoint14)
         time.sleep(4)
         self.MoveCommand(self.Waypoint15)
-        time.sleep(4)
+        time.sleep(5)
     def DropOff(self):
         self.MoveCommand(self.Waypoint14)
         time.sleep(5)
@@ -223,11 +224,9 @@ class MyUr:
         time.sleep(3)
         self.MoveCommand(self.Waypoint14)
         time.sleep(5)
-        self.MoveCommand(self.Waypoint15)
+        self.MoveCommand(self.Waypoint16)
         time.sleep(4)
 
-        
-        
 
 
 
