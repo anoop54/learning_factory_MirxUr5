@@ -33,7 +33,7 @@ class cam:
         return result
 
     def GetImage(self):
-        ftp = FTP('172.16.0.13')
+        ftp = FTP('10.0.1.55')
         ftp.login('FTP','Factory1')
         ftp.cwd('MirBasket')
         

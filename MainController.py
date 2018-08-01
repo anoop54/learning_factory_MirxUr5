@@ -25,15 +25,16 @@ def main():
     global cam
     global rob
     
-    rob = urx.Robot("172.16.1.141")
+    rob = urx.Robot("10.0.2.64")
     rob.set_tcp((0, 0, 0, 0, 0, 0))
     
     myur = UrController.MyUr()
+    '''
     cam = CamController.cam()
     
     if(cam.doOperation() != 0):
         ids,corners,rvec,tvec = cam.doOperation()
-        print(tvec)
+        print(tvec)'''
 
 #want 0.07514064436138192
 def kanban_pickup_valve_drop_off():

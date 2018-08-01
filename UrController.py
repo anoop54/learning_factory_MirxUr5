@@ -4,7 +4,7 @@ import struct
 
 
 class MyUr:
-    HOST = "172.16.1.141" # The remote host
+    HOST = "10.0.2.64" # The remote host
     PORT = 30003
     
     Ur_Home =     ("movej([-3.1258847, -1.5767304, 1.5449655, 1.58825, 1.57 , 0.04468043], a=0.5236, v=0.69813)" + "\n")
