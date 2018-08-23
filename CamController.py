@@ -1,3 +1,6 @@
+#Learning Factory 2018.
+#Author: Anoop Gadhrri & Simran Nijjar
+
 import numpy as np
 import cv2
 import cv2.aruco as aruco
@@ -10,44 +13,57 @@ from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 import time
 
 class cam:
+    #mainimage= b''
 
-    mainimage= b''
+    #def callback(self, data):
+        #self.mainimage = self.mainimage + data
 
-    def callback(self, data):
-        self.mainimage = self.mainimage + data
 
-    def savImage(self, mainimage):
-        image = Image.open(io.BytesIO(mainimage))
-        return image
+    #def savImage(self, mainimage):
+        #cv2.imwrite('frame.png',image)
+        #return image
+
         
-    def cv2Conversion(self, image):
-        image = image.convert('RGB')
-        opencvImage = np.array(image)    
-        opencvImage = opencvImage[:, :, ::-1].copy() 
-        return opencvImage
+    #def cv2Conversion(self, image):
+        #image = image.convert('RGB')
+        #opencvImage = np.array(image)    
+        #opencvImage = opencvImage[:, :, ::-1].copy() 
+        #return opencvImage
 
-    def rotateImage(self,image, angle):
-        image_center = tuple(np.array(image.shape[1::-1]) / 2)
-        rot_mat = cv2.getRotationMatrix2D(image_center, angle, 1.0)
-        result = cv2.warpAffine(image, rot_mat, image.shape[1::-1], flags=cv2.INTER_LINEAR)
-        return result
+
+    #def rotateImage(self, image, angle):
+        #image_center = tuple(np.array(image.shape[1::-1]) / 2)
+        #rot_mat = cv2.getRotationMatrix2D(image_center, angle, 1.0)
+        #result = cv2.warpAffine(image, rot_mat, image.shape[1::-1], flags=cv2.INTER_LINEAR)
+        #return result
+
+
+    #def GetImage(self):
+        #ftp = FTP('10.0.1.55')
+        #ftp.login('FTP','Factory1')
+        #ftp.cwd('MirBasket')
+        
+        #ftp.retrbinary('RETR image.bmp', self.callback)
+        #image = self.savImage(self.mainimage)
+        #ftp.quit()
+
+        #cvImage = self.cv2Conversion(image)
+        #return cvImage
+
 
     def GetImage(self):
-        ftp = FTP('10.0.1.55')
-        ftp.login('FTP','Factory1')
-        ftp.cwd('MirBasket')
+        cap = cv2.VideoCapture(0)
+        ret, image = cap.read()
         
-        ftp.retrbinary('RETR image.bmp', self.callback)
-        image = self.savImage(self.mainimage)
-        ftp.quit()
+        cv2.imshow('frame',image)
+        cv2.imwrite('frame.png',image)
+        
+        cap.release()
+        return image
 
-        cvImage = self.cv2Conversion(image)
-        
-        return cvImage
-    
+
     def doOperation(self):
-        self.mainimage= b''
-
+        #self.mainimage= b''
         
         try:
             cv_file = cv2.FileStorage("test.yaml", cv2.FILE_STORAGE_READ)
@@ -55,13 +71,12 @@ class cam:
             dist = cv_file.getNode("dist_coeff").mat()
             cv_file.release()
 
-
             image = self.GetImage()    
 
-
-            image = cv2.resize(image,(640,480))
-  #          cv2.imshow('frame',image)
-            frame = self.rotateImage(image,-90)
+            #image = cv2.resize(image,(640,480))
+            #cv2.imshow('frame',image)
+            #frame = self.rotateImage(image,-90)
+            frame = image
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
             parameters = aruco.DetectorParameters_create()
@@ -81,6 +96,7 @@ class cam:
             name= 'trials/'+ str(corners[0][0][0])+'.bmp'
             status = cv2.imwrite(name,frame)
             return ids,corners,rvec,tvec
+        
         except:
-            print("Marker not found")
+            print("Marker Not Found")
             return 0 
